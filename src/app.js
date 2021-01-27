@@ -19,7 +19,15 @@ app.get('/', (req, res) => {
 app.get('/weather', (req, res) => {
     console.log('Calling weather API');
     let locale = req.query.locale;
-    foreCast(locale);
+    foreCast(locale, (err, weatherData) => {
+        if(err) {
+            console.log('error in calling weather API')
+            res.send({err});
+        }
+        console.log('returning weather data', weatherData)
+        res.send({weatherData})
+    });
+    
 })
 
 // Catchall route error handling
