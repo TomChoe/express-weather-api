@@ -15,10 +15,24 @@ app.get('/', (req, res) => {
     })
 })
 
+// calls users db to get user's saved location
+app.get('/users', (req, res) => {
+    req.json({
+        message: 'Route to handle user login'
+    })
+})
+
 // testing at this time
 app.get('/weather', (req, res) => {
-    console.log('Calling weather API');
     let locale = req.query.locale;
+
+    // error handling, need to code to where it does not end program and user continues to input
+    if(!locale) {
+        return res.send({
+            error: 'Please provide valid locale'
+        })
+    }
+
     foreCast(locale, (err, weatherData) => {
         if(err) {
             console.log('error in calling weather API')
@@ -33,7 +47,7 @@ app.get('/weather', (req, res) => {
 // Catchall route error handling
 app.get('*', (req, res) => {
     res.json({
-        message: '404 error'
+        message: '404 error, page not found'
     })
 })
 
